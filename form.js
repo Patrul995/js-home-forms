@@ -46,7 +46,11 @@ let email = document.getElementById('user-email');
 let myName = document.getElementById('user-name');
 let surname = document.getElementById('user-surname');
 let pass = document.getElementById('user-password');
-
+let savedLogin;
+let savedEmail;
+let savedName;
+let savedSurname;
+let savedPassword;
 
 // function checkBtn() {
 //     let obj = {
@@ -65,9 +69,8 @@ let pass = document.getElementById('user-password');
 // }
 
 
-function checkBtn2 () {
-    if(loginRegex.test(login.value) === true && emailRegex.test(email.value) === true && nameAndSurnameRegex.test(myName.value) === true && nameAndSurnameRegex.test(surname.value) && passwordRegex.test(pass.value) === true) 
-    {
+function checkBtn2() {
+    if (loginRegex.test(login.value) === true && emailRegex.test(email.value) === true && nameAndSurnameRegex.test(myName.value) === true && nameAndSurnameRegex.test(surname.value) && passwordRegex.test(pass.value) === true) {
         document.getElementById('sendButton').disabled = false
     }
     else {
@@ -137,10 +140,40 @@ document.getElementById('register-form').addEventListener('submit', (ev) => {
     ev.preventDefault()
     let formData = new FormData(ev.target)
     let newFormData = [...formData]
-
     let user = {}
     newFormData.forEach((item) => {
         user[item[0]] = item[1]
     })
     console.log(user)
 })
+
+
+document.getElementById('sendButton').addEventListener('click', function() {
+    savedLogin = login.value;
+    savedEmail = email.value;
+    savedName = myName.value;
+    savedSurname = surname.value;
+    savedPassword = pass.value;
+
+    alert('Данные сохранены.');
+});
+
+
+document.getElementById('loginButton').addEventListener('click', function() {
+    const loginInput = document.getElementById('login-username').value;
+    const passwordInput = document.getElementById('login-password').value;
+
+
+    if (loginInput === savedLogin && passwordInput === savedPassword) {
+
+        document.getElementById('display-login').textContent = `Login: ${savedLogin}`;
+        document.getElementById('display-email').textContent = `Email: ${savedEmail}`;
+        document.getElementById('display-name').textContent = `Name: ${savedName}`;
+        document.getElementById('display-surname').textContent = `Surname: ${savedSurname}`;
+        document.getElementById('display-password').textContent = `Password: ${savedPassword}`;
+        document.getElementById('user-info').style.display = 'block';
+
+    } else {
+        alert('Неверный логин или пароль!');
+    }
+});
